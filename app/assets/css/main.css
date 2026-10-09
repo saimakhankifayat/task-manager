@@ -1,0 +1,288 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * Taskflow design tokens
+ * ------------------------------------------------------------------ */
+
+/* The five brand colours. Everything else derives from these. */
+@theme {
+  --color-midnight: #1c2e4a; /* primary brand / navigation   */
+  --color-dusty: #52677d; /* secondary blue / interactive */
+  --color-ivory: #bdc4d4; /* cool light surface           */
+  --color-navy: #0f1a2b; /* deepest ink / high contrast   */
+  --color-buttercream: #d1cfc9; /* warm neutral accent           */
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(15 26 43 / 0.04), 0 2px 8px rgb(15 26 43 / 0.04);
+  --shadow-pop: 0 10px 30px -12px rgb(15 26 43 / 0.28), 0 2px 8px rgb(15 26 43 / 0.08);
+}
+
+/* Dark mode is driven by a `.dark` class on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Light theme — cool, quiet, editorial. */
+:root {
+  color-scheme: light;
+  --background: #f1f2f5;
+  --surface: #fbfbfc;
+  --surface-muted: #e6e9ef;
+  --foreground: #0f1a2b;
+  --foreground-muted: #5c6a7e;
+  --border: #d9dde5;
+
+  --primary: #1c2e4a;
+  --primary-hover: #16263c;
+  --primary-foreground: #eef0f4;
+
+  --accent: #52677d;
+  --accent-soft: rgb(82 103 125 / 0.1);
+
+  --danger: #9c3b3b;
+  --danger-hover: #863232;
+  --danger-soft: rgb(156 59 59 / 0.1);
+
+  --success: #3d6b52;
+  --success-soft: rgb(61 107 82 / 0.12);
+
+  --ring: rgb(82 103 125 / 0.5);
+
+  /* Sidebar keeps the brand navy in both themes. */
+  --sidebar: #1c2e4a;
+  --sidebar-foreground: #cdd5e2;
+  --sidebar-muted: #8e9bb0;
+  --sidebar-border: rgb(255 255 255 / 0.09);
+  --sidebar-active: rgb(255 255 255 / 0.1);
+}
+
+/* Dark theme — deep navy surfaces, ivory ink. */
+.dark {
+  color-scheme: dark;
+  --background: #0f1a2b;
+  --surface: #16243b;
+  --surface-muted: #1e2f4a;
+  --foreground: #e8ebf1;
+  --foreground-muted: #94a2b8;
+  --border: #27374f;
+
+  --primary: #bdc4d4;
+  --primary-hover: #d2d7e2;
+  --primary-foreground: #0f1a2b;
+
+  --accent: #9db0c6;
+  --accent-soft: rgb(189 196 212 / 0.12);
+
+  --danger: #e08b8b;
+  --danger-hover: #eaa3a3;
+  --danger-soft: rgb(224 139 139 / 0.12);
+
+  --success: #86c0a0;
+  --success-soft: rgb(134 192 160 / 0.14);
+
+  --ring: rgb(189 196 212 / 0.55);
+}
+
+/* Semantic tokens exposed to Tailwind utilities (bg-surface, text-foreground…). */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-border: var(--border);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-soft: var(--danger-soft);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-active: var(--sidebar-active);
+}
+
+/* ------------------------------------------------------------------ *
+ * Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Reusable primitives
+ * ------------------------------------------------------------------ */
+@layer components {
+  .surface {
+    @apply rounded-lg border border-border bg-surface;
+  }
+
+  .btn {
+    @apply inline-flex shrink-0 select-none items-center justify-center gap-2 rounded-md border border-transparent text-sm font-medium transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-md {
+    @apply h-9 px-3.5;
+  }
+
+  .btn-sm {
+    @apply h-8 px-3 text-[0.8125rem];
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover;
+  }
+
+  .btn-secondary {
+    @apply border-border bg-surface text-foreground hover:bg-surface-muted;
+  }
+
+  .btn-ghost {
+    @apply text-foreground-muted hover:bg-surface-muted hover:text-foreground;
+  }
+
+  .btn-danger {
+    @apply bg-danger text-white hover:bg-danger-hover dark:text-navy;
+  }
+
+  .btn-icon {
+    @apply h-8 w-8 p-0;
+  }
+
+  .input {
+    @apply w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-foreground transition-colors duration-150 placeholder:text-foreground-muted/60 hover:border-foreground-muted/40 focus:border-accent focus:outline-none;
+  }
+
+  .label {
+    @apply mb-1.5 block text-[0.8125rem] font-medium text-foreground;
+  }
+
+  .field-error {
+    @apply mt-1.5 flex items-center gap-1 text-[0.8125rem] text-danger;
+  }
+
+  .section-title {
+    @apply text-[0.9375rem] font-semibold tracking-[-0.01em] text-foreground;
+  }
+
+  .meta {
+    @apply text-xs text-foreground-muted;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Utilities & motion
+ * ------------------------------------------------------------------ */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.skip-link {
+  @apply absolute left-4 top-4 z-50 -translate-y-24 rounded-md bg-primary px-3 py-2 text-sm text-primary-foreground transition-transform focus:translate-y-0;
+}
+
+/* Modal + drawer transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.18s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Dialog panel entrance (mount animation — no leave dependency). */
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.dialog-panel {
+  animation: dialog-in 0.18s ease;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
+/* Task list transitions */
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+.list-leave-active {
+  position: absolute;
+  width: 100%;
+}
+
+.toast-enter-active,
+.toast-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

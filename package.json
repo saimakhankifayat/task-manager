@@ -1,0 +1,27 @@
+{
+  "name": "taskflow",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Taskflow — a calm, local-first task manager built with Nuxt 4, Vue 3 and Tailwind CSS 4.",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.54.0",
+    "nuxt": "^4.6.0",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.3.12"
+  }
+}
